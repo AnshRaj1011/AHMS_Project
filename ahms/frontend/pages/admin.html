@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AHMS – Admin</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+<div class="sidebar">
+  <div class="sidebar-logo"><span>🏥</span> AHMS Admin</div>
+  <nav>
+    <a class="nav-link active" onclick="showSection('home')">📊 Dashboard</a>
+    <a class="nav-link" onclick="showSection('patients')">👥 Patients</a>
+    <a class="nav-link" onclick="showSection('doctors')">👨‍⚕️ Doctors</a>
+    <a class="nav-link" onclick="showSection('appointments')">📅 Appointments</a>
+    <a class="nav-link" onclick="showSection('beds')">🛏️ Beds</a>
+    <a class="nav-link" onclick="showSection('icu')">🚨 ICU Requests</a>
+    <a class="nav-link" onclick="showSection('ambulance')">🚑 Ambulance</a>
+    <a class="nav-link" onclick="showSection('labTests')">🔬 Lab Tests</a>
+    <a class="nav-link logout" onclick="logout()">🚪 Logout</a>
+  </nav>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <span>Admin Panel</span>
+    <span class="user-info">🛡️ <span id="userName"></span></span>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD STATS -->
+    <section id="sec-home" class="section">
+      <h2>📊 Hospital Overview</h2>
+      <div class="stats-grid">
+        <div class="stat-card blue">  <div class="stat-icon">👥</div><div class="stat-label">Total Patients</div><div class="stat-val" id="sPatients">–</div></div>
+        <div class="stat-card green"> <div class="stat-icon">👨‍⚕️</div><div class="stat-label">Total Doctors</div><div class="stat-val" id="sDoctors">–</div></div>
+        <div class="stat-card yellow"><div class="stat-icon">📅</div><div class="stat-label">Today Appointments</div><div class="stat-val" id="sAppts">–</div></div>
+        <div class="stat-card teal">  <div class="stat-icon">🛏️</div><div class="stat-label">Available Beds</div><div class="stat-val" id="sBeds">–</div></div>
+        <div class="stat-card red">   <div class="stat-icon">🏥</div><div class="stat-label">ICU Beds Free</div><div class="stat-val" id="sIcu">–</div></div>
+        <div class="stat-card orange"><div class="stat-icon">🚑</div><div class="stat-label">Pending Ambulance</div><div class="stat-val" id="sAmb">–</div></div>
+        <div class="stat-card purple"><div class="stat-icon">🔬</div><div class="stat-label">Pending Lab Tests</div><div class="stat-val" id="sLabs">–</div></div>
+      </div>
+    </section>
+
+    <!-- PATIENTS -->
+    <section id="sec-patients" class="section hidden">
+      <h2>👥 All Patients</h2>
+      <div id="patientTable" class="table-wrap">Loading...</div>
+    </section>
+
+    <!-- DOCTORS -->
+    <section id="sec-doctors" class="section hidden">
+      <div class="section-header">
+        <h2>👨‍⚕️ Doctors</h2>
+        <button class="btn-primary" onclick="openModal('addDoctorModal')">+ Add Doctor</button>
+      </div>
+      <div id="doctorTable" class="table-wrap">Loading...</div>
+    </section>
+
+    <!-- APPOINTMENTS -->
+    <section id="sec-appointments" class="section hidden">
+      <h2>📅 All Appointments</h2>
+      <div id="apptTable" class="table-wrap">Loading...</div>
+    </section>
+
+    <!-- BEDS -->
+    <section id="sec-beds" class="section hidden">
+      <div class="section-header">
+        <h2>🛏️ Bed Management</h2>
+        <button class="btn-primary" onclick="openModal('addBedModal')">+ Add Bed</button>
+      </div>
+      <div id="bedTable" class="table-wrap">Loading...</div>
+    </section>
+
+    <!-- ICU REQUESTS -->
+    <section id="sec-icu" class="section hidden">
+      <h2>🚨 ICU Emergency Requests</h2>
+      <div id="icuTable" class="table-wrap">Loading...</div>
+    </section>
+
+    <!-- AMBULANCE -->
+    <section id="sec-ambulance" class="section hidden">
+      <h2>🚑 Ambulance Requests</h2>
+      <div id="ambulanceTable" class="table-wrap">Loading...</div>
+    </section>
+
+    <!-- LAB TESTS -->
+    <section id="sec-labTests" class="section hidden">
+      <h2>🔬 Lab Tests</h2>
+      <div id="labTable" class="table-wrap">Loading...</div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ADD BED MODAL -->
+<div id="addBedModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-header"><h3>Add New Bed</h3><button onclick="closeModal('addBedModal')">✕</button></div>
+    <div class="form-group"><label>Bed Number</label><input id="bedNum" type="text" placeholder="e.g. B-101"/></div>
+    <div class="form-group"><label>Ward Name</label><input id="bedWard" type="text" placeholder="e.g. General Ward A"/></div>
+    <div class="form-group"><label>Bed Type</label>
+      <select id="bedType">
+        <option value="GENERAL">General</option><option value="ICU">ICU</option>
+        <option value="EMERGENCY">Emergency</option><option value="PRIVATE">Private</option>
+        <option value="SEMI_PRIVATE">Semi-Private</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Floor</label><input id="bedFloor" type="number" placeholder="1"/></div>
+    <div class="form-group"><label>Daily Rate (₹)</label><input id="bedRate" type="number" placeholder="500"/></div>
+    <button class="btn-primary" onclick="addBed()">Add Bed</button>
+    <p id="bedMsg" class="success-msg"></p>
+  </div>
+</div>
+
+<!-- ADD DOCTOR MODAL -->
+<div id="addDoctorModal" class="modal hidden">
+  <div class="modal-box" style="max-width:500px">
+    <div class="modal-header"><h3>Add Doctor Profile</h3><button onclick="closeModal('addDoctorModal')">✕</button></div>
+    <div class="form-group"><label>User ID (Doctor's user account)</label><input id="docUserId" type="number" placeholder="User ID"/></div>
+    <div class="form-group"><label>Specialization</label><input id="docSpec" type="text" placeholder="e.g. Cardiology"/></div>
+    <div class="form-group"><label>Qualification</label><input id="docQual" type="text" placeholder="e.g. MBBS, MD"/></div>
+    <div class="form-group"><label>License Number</label><input id="docLicense" type="text"/></div>
+    <div class="form-group"><label>Department</label><input id="docDept" type="text"/></div>
+    <div class="form-group"><label>Cabin Number</label><input id="docCabin" type="text"/></div>
+    <div class="form-group"><label>Consultation Fee (₹)</label><input id="docFee" type="number"/></div>
+    <div class="form-group"><label>Available Days</label><input id="docDays" type="text" placeholder="MON,TUE,WED,THU,FRI"/></div>
+    <div class="form-group"><label>From – To</label>
+      <div style="display:flex;gap:.5rem">
+        <input id="docFrom" type="time" value="09:00"/>
+        <input id="docTo" type="time" value="17:00"/>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="addDoctor()">Save Doctor</button>
+    <p id="docMsg" class="success-msg"></p>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/admin.js"></script>
+</body>
+</html>
