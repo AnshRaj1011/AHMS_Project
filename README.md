@@ -2,7 +2,7 @@
 
 ## Overview
 
-Advanced Hospital Management System (AHMS) is a full-stack healthcare management platform developed using Java Spring Boot. The system helps hospitals manage patients, doctors, appointments, beds, ICU requests, ambulance services, laboratory tests, authentication, and real-time communication through a centralized dashboard.
+MediCore – Hospital Management System is a full-stack healthcare management platform developed using Java Spring Boot. The system helps hospitals manage patients, doctors, appointments, beds, ICU requests, ambulance services, laboratory tests, authentication, and real-time communication through a centralized dashboard.
 
 The project aims to automate hospital operations, improve efficiency, and provide a secure and user-friendly experience for administrators, doctors, and patients.
 
