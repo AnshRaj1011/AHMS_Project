@@ -1,4 +1,4 @@
-# Advanced Hospital Management System (AHMS)
+# MediCore – Hospital Management System
 
 ## Overview
 
